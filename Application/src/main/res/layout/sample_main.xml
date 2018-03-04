@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2014 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,21 +56,22 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
+            android:background="@android:color/black"
+            android:fontFamily="monospace"
             android:gravity="center"
-
             android:padding="15dp"
-            android:textSize="20sp" />
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/finished_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:onClick="finishJob"
-            android:text="@string/finish_job_button_text"/>
+            android:padding="20dp"
+            android:text="@string/finish_job_button_text" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -215,19 +216,86 @@ limitations under the License.
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/idle_mode_text" />
+
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/persisted_caption" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_persisted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/persisted_text" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/recur_caption" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_recur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/recur_text" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/recur"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/interval_cation" />
+
+                <EditText
+                    android:id="@+id/recur_interval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="20(min)"
+                    tools:ignore="HardcodedText" />
+
+            </TableRow>
         </TableLayout>
 
         <Button
             android:id="@+id/schedule_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
             android:onClick="scheduleJob"
-            android:text="@string/schedule_job_button_text"/>
+            android:text="@string/schedule_job_button_text" />
+
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="match_parent"
@@ -235,6 +303,6 @@ limitations under the License.
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:onClick="cancelAllJobs"
-            android:text="@string/cancel_all_jobs_button_text"/>
+            android:text="@string/cancel_all_jobs_button_text" />
     </LinearLayout>
 </ScrollView>

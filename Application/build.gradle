@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 25
     }
 
     compileOptions {
@@ -59,4 +59,7 @@ android {
 
     }
 
+    lintOptions {
+        abortOnError false
+    }
 }

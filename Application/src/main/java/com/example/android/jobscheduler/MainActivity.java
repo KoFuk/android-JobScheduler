@@ -33,8 +33,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +73,10 @@ public class MainActivity extends Activity {
     private RadioButton mAnyConnectivityRadioButton;
     private CheckBox mRequiresChargingCheckBox;
     private CheckBox mRequiresIdleCheckbox;
+    private CheckBox mPersistedCheckBox;
+    private TableRow mRecurRow;
+    private CheckBox mRecurCheckBox;
+    private EditText mRecurInterval;
 
     private ComponentName mServiceComponent;
 
@@ -92,6 +98,17 @@ public class MainActivity extends Activity {
         mAnyConnectivityRadioButton = (RadioButton) findViewById(R.id.checkbox_any);
         mRequiresChargingCheckBox = (CheckBox) findViewById(R.id.checkbox_charging);
         mRequiresIdleCheckbox = (CheckBox) findViewById(R.id.checkbox_idle);
+        mPersistedCheckBox = (CheckBox) findViewById(R.id.checkbox_persisted);
+        mRecurRow = (TableRow) findViewById(R.id.recur);
+        mRecurCheckBox = (CheckBox) findViewById(R.id.checkbox_recur);
+        mRecurInterval = (EditText) findViewById(R.id.recur_interval);
+        mRecurCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mRecurRow.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            }
+        });
+
         mServiceComponent = new ComponentName(this, MyJobService.class);
 
         mHandler = new IncomingMessageHandler(this);
@@ -127,8 +144,9 @@ public class MainActivity extends Activity {
         if (!TextUtils.isEmpty(delay)) {
             builder.setMinimumLatency(Long.valueOf(delay) * 1000);
         }
+        String periodic = mRecurInterval.getText().toString();
         String deadline = mDeadlineEditText.getText().toString();
-        if (!TextUtils.isEmpty(deadline)) {
+        if (!TextUtils.isEmpty(periodic) && !TextUtils.isEmpty(deadline)) {
             builder.setOverrideDeadline(Long.valueOf(deadline) * 1000);
         }
         boolean requiresUnmetered = mWiFiConnectivityRadioButton.isChecked();
@@ -140,6 +158,16 @@ public class MainActivity extends Activity {
         }
         builder.setRequiresDeviceIdle(mRequiresIdleCheckbox.isChecked());
         builder.setRequiresCharging(mRequiresChargingCheckBox.isChecked());
+        builder.setPersisted(mPersistedCheckBox.isChecked());
+        if (mRecurCheckBox.isChecked()) {
+            long interval;
+            if (TextUtils.isEmpty(periodic)) {
+                interval = 20L;
+            } else {
+                interval = Long.parseLong(mRecurInterval.getText().toString());
+            }
+            builder.setPeriodic(interval * 1000 * 60);
+        }
 
         // Extras, work duration.
         PersistableBundle extras = new PersistableBundle();
@@ -254,11 +282,10 @@ public class MainActivity extends Activity {
         private void updateParamsTextView(@Nullable Object jobId, String action) {
             TextView paramsTextView = (TextView) mActivity.get().findViewById(R.id.task_params);
             if (jobId == null) {
-                paramsTextView.setText("");
                 return;
             }
             String jobIdText = String.valueOf(jobId);
-            paramsTextView.setText(String.format("Job ID %s %s", jobIdText, action));
+            paramsTextView.append(String.format("Job ID %s %s\n", jobIdText, action));
         }
 
         private int getColor(@ColorRes int color) {

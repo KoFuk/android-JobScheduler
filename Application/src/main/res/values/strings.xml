@@ -25,7 +25,9 @@ limitations under the License.
     <string name="idle_mode_text">Requires device in idle mode.</string>
     <string name="charging_caption">Charging:</string>
     <string name="charging_text">Requires device plugged in.</string>
+    <string name="persisted_text">Set to persist this job across device reboots.</string>
     <string name="idle_caption">Idle:</string>
+    <string name="persisted_caption">Persisted:</string>
     <string name="connectivity">Connectivity:</string>
     <string name="any">Any</string>
     <string name="unmetered">WiFi</string>
@@ -36,4 +38,8 @@ limitations under the License.
     <string name="cancelled_job">Cancelled job %d</string>
     <string name="no_jobs_to_cancel">No jobs to cancel</string>
     <string name="all_jobs_cancelled">All jobs cancelled</string>
+    <string name="recur">Recur</string>
+    <string name="recur_caption">Recur:</string>
+    <string name="interval_cation">Interval:</string>
+    <string name="recur_text">Specify that this job should recur.</string>
 </resources>

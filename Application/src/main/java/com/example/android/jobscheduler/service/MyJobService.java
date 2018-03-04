@@ -16,8 +16,11 @@
 
 package com.example.android.jobscheduler.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +29,7 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.android.jobscheduler.R;
 
 import static com.example.android.jobscheduler.MainActivity.MESSENGER_INTENT_KEY;
 import static com.example.android.jobscheduler.MainActivity.MSG_COLOR_START;
@@ -105,6 +109,23 @@ public class MyJobService extends JobService {
         // only exists when the MainActivity calls startService() with the callback in the Intent.
         if (mActivityMessenger == null) {
             Log.d(TAG, "Service is bound, not started. There's no callback to send a message to.");
+            String jobIdText = String.valueOf(params);
+            String action;
+            if (messageID == 0 || messageID == 2) {
+                action = "started";
+            } else {
+                action = "stopped";
+            }
+            String content = String.format("Job ID %s %s", jobIdText, action);
+            Notification n = new Notification.Builder(this)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText(content)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .build();
+            NotificationManager nm =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            assert nm != null;
+            nm.notify(Integer.parseInt(jobIdText), n);
             return;
         }
         Message m = Message.obtain();
