@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
         }
         String periodic = mRecurInterval.getText().toString();
         String deadline = mDeadlineEditText.getText().toString();
-        if (!TextUtils.isEmpty(periodic) && !TextUtils.isEmpty(deadline)) {
+        if (!mRecurCheckBox.isChecked() && !TextUtils.isEmpty(deadline)) {
             builder.setOverrideDeadline(Long.valueOf(deadline) * 1000);
         }
         boolean requiresUnmetered = mWiFiConnectivityRadioButton.isChecked();
